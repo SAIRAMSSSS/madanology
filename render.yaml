@@ -1,9 +1,10 @@
 services:
   - type: web
     name: madanology-vedic
-    env: node
+    runtime: node
     plan: free
-    buildCommand: "npm run postinstall && npm run build"
+    region: oregon
+    buildCommand: "npm run build"
     startCommand: "npm start"
     envVars:
       - key: NODE_ENV

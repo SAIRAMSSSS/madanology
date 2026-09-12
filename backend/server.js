@@ -156,7 +156,6 @@ app.post('/api/generate-chart', async (req, res) => {
   try {
     const { name, gender, dob, tob, meridiem, place, latitude, longitude, timezone } = req.body;
 
-    // 1. Input Validation
     if (!name || typeof name !== 'string' || name.trim().length === 0) {
       return res.status(400).json({
         success: false,
@@ -189,7 +188,6 @@ app.post('/api/generate-chart', async (req, res) => {
     let externalResult = null;
     let dataSource = 'astronomical-engine';
 
-    // 2. Query External API if selected
     if (provider === 'vedic_rishi') {
       try {
         console.log(`[Madanology] Requesting Vedic Rishi for ${name}...`);
@@ -208,7 +206,6 @@ app.post('/api/generate-chart', async (req, res) => {
       }
     }
 
-    // 3. Compute accurate Jaathagam
     const accurateHoroscope = calculateAccurateHoroscope({
       name: name.trim(),
       gender: gender || 'Male',
@@ -243,23 +240,33 @@ app.post('/api/generate-chart', async (req, res) => {
 });
 
 /**
- * Production Hosting: Serve built frontend from ../frontend/dist
+ * Production Hosting: Detect and serve frontend/dist
  */
-const distPath = path.resolve(__dirname, '../frontend/dist');
-if (fs.existsSync(distPath)) {
-  app.use(express.static(distPath));
+const possibleDistPaths = [
+  path.resolve(__dirname, '../frontend/dist'),
+  path.resolve(process.cwd(), 'frontend/dist'),
+  path.resolve(process.cwd(), 'dist')
+];
+
+let activeDistPath = possibleDistPaths.find(p => fs.existsSync(p));
+
+if (activeDistPath) {
+  console.log(`[Madanology] Serving static frontend from: ${activeDistPath}`);
+  app.use(express.static(activeDistPath));
   app.get('*', (req, res, next) => {
     if (req.path.startsWith('/api')) return next();
-    res.sendFile(path.join(distPath, 'index.html'));
+    res.sendFile(path.join(activeDistPath, 'index.html'));
   });
+} else {
+  console.log(`[Madanology] Frontend dist directory not found. Running in API-only mode.`);
 }
 
-// Start server
+// Start server listening on all network interfaces
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`=================================================`);
   console.log(`  MADANOLOGY HIGH-PRECISION VEDIC ENGINE`);
-  console.log(`  Running on: http://localhost:${PORT}`);
-  console.log(`  Static Frontend: ${fs.existsSync(distPath) ? 'Active' : 'Disabled (Dev Mode)'}`);
+  console.log(`  Listening on 0.0.0.0:${PORT}`);
+  console.log(`  Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`=================================================`);
 });
 
