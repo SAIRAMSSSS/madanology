@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #060913;
+    background-image: 
+      radial-gradient(at 10% 15%, rgba(245, 158, 11, 0.08) 0px, transparent 50%),
+      radial-gradient(at 90% 85%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+      radial-gradient(at 50% 50%, rgba(217, 119, 6, 0.04) 0px, transparent 60%);
+    background-attachment: fixed;
+    color: #f1f5f9;
+    font-family: 'Inter', 'Noto Sans Tamil', system-ui, sans-serif;
+  }
+}
+
+/* South Indian Vedic Chart Grid - Fluid & Mobile-First */
+.south-indian-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+.chart-box {
+  border: 1.5px solid rgba(245, 158, 11, 0.35);
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  min-height: 72px;
+}
+
+@media (min-width: 640px) {
+  .chart-box {
+    min-height: 110px;
+  }
+}
+
+.chart-box:hover {
+  background-color: rgba(245, 158, 11, 0.05);
+  border-color: rgba(245, 158, 11, 0.6);
+}
+
+.chart-center {
+  grid-column: 2 / 4;
+  grid-row: 2 / 4;
+  border: 1.5px solid rgba(245, 158, 11, 0.45);
+  background: radial-gradient(circle, rgba(15, 23, 42, 0.95) 0%, rgba(8, 13, 26, 0.98) 100%);
+}
+
+/* Ensure inputs and selects render cleanly on mobile iOS / Android */
+input, select, textarea {
+  color-scheme: dark;
+}
+
+select option {
+  background-color: #0d1424;
+  color: #f1f5f9;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #080d1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #f59e0b;
+}

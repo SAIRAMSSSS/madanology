@@ -1,0 +1,24 @@
+{
+  "name": "madanology",
+  "version": "1.0.0",
+  "description": "Madanology - Vedic Jaathagam & Horoscope Platform",
+  "scripts": {
+    "postinstall": "npm --prefix backend install && npm --prefix frontend install",
+    "build": "npm --prefix frontend run build",
+    "start": "node backend/server.js",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev"
+  },
+  "keywords": [
+    "vedic",
+    "jaathagam",
+    "astrology",
+    "horoscope",
+    "tamil",
+    "express",
+    "react",
+    "madanology"
+  ],
+  "author": "Madanology Team",
+  "license": "MIT"
+}
